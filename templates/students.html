@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+{% block page_title %}Students{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <form class="d-flex gap-2" method="get" action="{{ url_for('students') }}">
+    <input class="form-control" type="search" name="q"
+           value="{{ q }}" placeholder="Search by name, roll, or dept…">
+    <button class="btn btn-outline-primary" type="submit">
+      <i class="bi bi-search"></i>
+    </button>
+    {% if q %}
+    <a href="{{ url_for('students') }}" class="btn btn-outline-secondary">
+      <i class="bi bi-x"></i>
+    </a>
+    {% endif %}
+  </form>
+  <a href="{{ url_for('student_add') }}" class="btn btn-primary">
+    <i class="bi bi-person-plus-fill me-1"></i>Add Student
+  </a>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Roll No.</th>
+            <th>Full Name</th>
+            <th>Department</th>
+            <th>Sem.</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if students %}
+            {% for s in students %}
+            <tr>
+              <td class="text-muted small">{{ loop.index }}</td>
+              <td><span class="badge bg-secondary">{{ s.roll_number }}</span></td>
+              <td class="fw-semibold">{{ s.full_name }}</td>
+              <td>{{ s.department }}</td>
+              <td class="text-center">{{ s.semester }}</td>
+              <td class="text-muted small">{{ s.email or '—' }}</td>
+              <td class="text-muted small">{{ s.phone or '—' }}</td>
+              <td class="text-center">
+                <a href="{{ url_for('student_edit', sid=s.student_id) }}"
+                   class="btn btn-sm btn-outline-primary me-1">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <form method="POST"
+                      action="{{ url_for('student_delete', sid=s.student_id) }}"
+                      class="d-inline"
+                      onsubmit="return confirm('Delete {{ s.full_name }}?')">
+                  <button class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="8" class="text-center text-muted py-4">
+              {% if q %}No students match "{{ q }}".{% else %}No students found.{% endif %}
+            </td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

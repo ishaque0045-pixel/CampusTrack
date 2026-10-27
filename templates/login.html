@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="login-wrapper d-flex justify-content-center align-items-center min-vh-100 bg-login">
+  <div class="card login-card shadow-lg">
+    <div class="card-body p-5">
+      <div class="text-center mb-4">
+        <i class="bi bi-mortarboard-fill text-primary" style="font-size:3rem;"></i>
+        <h3 class="mt-2 fw-bold">CampusTrack</h3>
+        <p class="text-muted small">Student Attendance &amp; Academic Management</p>
+      </div>
+
+      <form method="POST" action="{{ url_for('login') }}" novalidate>
+        <div class="mb-3">
+          <label for="username" class="form-label fw-semibold">Username</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person"></i></span>
+            <input type="text" class="form-control" id="username" name="username"
+                   value="{{ username|default('') }}" required autofocus
+                   placeholder="Enter username">
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="password" class="form-label fw-semibold">Password</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+            <input type="password" class="form-control" id="password" name="password"
+                   required placeholder="Enter password">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
+          <i class="bi bi-box-arrow-in-right me-2"></i>Login
+        </button>
+      </form>
+
+      <p class="text-center text-muted mt-4 small">
+        CampusTrack &copy; {{ 2025 }}
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
